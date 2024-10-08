@@ -33,8 +33,8 @@ class Customer:
         Returns:
             the statement as a String
         """
-        total_amount = 0   # total rental charges
-        frequent_renter_points = 0
+        total_charge = 0   # total rental charges
+        total_frequent_renter_points = 0    # total frequent renter points
         # the .format method substitutes actual values into the fmt string
         statement = f"Rental Report for {self.name}\n\n"
         header_fmt = "{:40s}  {:6s} {:6s}\n"
@@ -42,25 +42,19 @@ class Customer:
         rental_fmt = "{:40s}  {:6d} {:6.2f}\n"
         
         for rental in self.rentals:
-            # compute the frequent renter points based on movie price code
-            if rental.get_movie().get_price_code() == Movie.NEW_RELEASE:
-                # New release earns 1 point per day rented
-                frequent_renter_points += rental.get_days_rented()
-            else:
-                # Other rentals get only 1 point
-                frequent_renter_points += 1
             #  add a detail line to statement
             statement += rental_fmt.format(
                 rental.get_movie().get_title(),
                 rental.get_days_rented(),
                 rental.get_price())
             # and accumulate activity
-            total_amount += rental.get_price()
+            total_charge += rental.get_price()
+            total_frequent_renter_points += rental.rental_points()
 
         # footer: summary of charges
         statement += "\n"
         statement += "{:40s}  {:6s} {:6.2f}\n".format(
-                       "Total Charges", "", total_amount)
-        statement += "Frequent Renter Points earned: {}\n".format(frequent_renter_points)
+                       "Total Charges", "", total_charge)
+        statement += "Frequent Renter Points earned: {}\n".format(total_frequent_renter_points)
 
         return statement
