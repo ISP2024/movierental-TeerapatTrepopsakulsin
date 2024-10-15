@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 class PriceStrategy(Enum):
     # The types of movies
     # (price_code, starter_price, starter_duration, price_multiplier, starter_point, point_multiplier).
