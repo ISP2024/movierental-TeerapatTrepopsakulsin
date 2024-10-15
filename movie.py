@@ -21,7 +21,7 @@ class Movie:
         self.price_code = strategy
 
     def get_price_code(self):
-        # get the strategy
+        # get the price_code(strategy)
         return self.price_code
     
     def get_title(self):
@@ -29,11 +29,3 @@ class Movie:
     
     def __str__(self):
         return self.title
-
-    def get_price(self, days: int) -> float:
-        """Compute rental change."""
-        return self.price_code.get_price(days)
-
-    def get_rental_points(self, days: int) -> int:
-        """Compute the frequent renter points based on movie price code."""
-        return self.price_code.get_rental_points(days)
