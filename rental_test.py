@@ -1,7 +1,7 @@
 import unittest
 from customer import Customer
 from rental import Rental
-from movie import Movie
+from movie import Movie, MovieCatalog
 
 
 class RentalTest(unittest.TestCase):
@@ -21,6 +21,19 @@ class RentalTest(unittest.TestCase):
     def test_movie_methods(self):
         self.assertTrue(self.new_movie.is_genre("acTion"))
         self.assertFalse(self.regular_movie.is_genre("Action"))
+
+    def test_movie_catalog(self):
+        catalog = MovieCatalog
+        # Get the first movie named 'Mulan'
+        old_movie = catalog.get_movie("Mulan")
+        self.assertEqual(old_movie, Movie(title='Mulan', year=1998, genre=['Animation', 'Action', 'Children']))
+
+        # Get 'Mulan' released in 2020
+        movie = catalog.get_movie("Mulan", 2020)
+        self.assertEqual(movie, Movie(title='Mulan', year=2020, genre=['Action', 'Adventure', 'Children']))
+
+        no_movie = catalog.get_movie("Lanmu")
+        self.assertIsNone(no_movie)
 
     def test_rental_attributes(self):
         r = Rental(self.regular_movie, 1, Rental.REGULAR)
