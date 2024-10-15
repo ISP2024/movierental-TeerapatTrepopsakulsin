@@ -20,6 +20,6 @@ See [Resources](https://cpske.github.io/ISP/assignment/movierental/movierental-p
 
 ## Rationale
 >2.1) code smells: Message Chains    
-2.2) design principle: Single Responsibility Principle
+2.2) design principle: Separation of Concerns, because Movie should not handle information about price 
 
 >5.2) 
