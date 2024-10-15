@@ -1,20 +1,15 @@
 # Demonstrate the movie rental code.
 # Create a customer with some movies and print a statement.
 
-from movie import Movie
+from movie import Movie, MovieCatalog
 from rental import Rental
 from customer import Customer
 
 def make_movies():
     """Some sample movies."""
-    movies = [
-        Movie("Air"),
-        Movie("Oppenheimer"),
-        Movie("Frozen"),
-        Movie("Bitconned"),
-        Movie("Particle Fever")
-    ]
-    return movies
+    catalog = MovieCatalog
+    movie_name_list = ("A Million Miles Away", "Oppenheimer", "Cinderella", "Bitconned", "Particle Fever")
+    return map(lambda x: catalog.get_movie(x), movie_name_list)
 
 
 if __name__ == '__main__':
@@ -22,8 +17,7 @@ if __name__ == '__main__':
     customer = Customer("Edward Snowden")
     days = 1
     movies = make_movies()
-    price_strategy = (Rental.NEW_RELEASE, Rental.REGULAR, Rental.CHILDRENS)
-    for i in range(len(movies)):
-        customer.add_rental(Rental(movies[i], days, price_strategy[i%3]))
+    for movie in movies:
+        customer.add_rental(Rental(movie, days))
         days = (days + 2) % 5 + 1
     print(customer.statement())

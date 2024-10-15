@@ -1,4 +1,5 @@
 import logging
+import datetime
 from pricing import PriceStrategy
 
 
@@ -16,24 +17,32 @@ class Rental:
     NEW_RELEASE = PriceStrategy.NEW_RELEASE
     CHILDRENS = PriceStrategy.CHILDRENS
     
-    def __init__(self, movie, days_rented, price_code):
+    def __init__(self, movie, days_rented):
         """Initialize a new movie rental object for
            a movie with known rental period (daysRented).
         """
-        if not isinstance(price_code, PriceStrategy):
-            log = logging.getLogger()
-            log.error(
-                f"Movie {self} has unrecognized priceCode {self.get_price_code()}")
-            raise TypeError(f"Unrecognized priceCode {self.get_price_code()}")
         self.movie = movie
         self.days_rented = days_rented
-        self.price_code = price_code
+        self.price_code = self.price_code_for_movie()
 
     def get_movie(self):
         return self.movie
 
     def get_days_rented(self):
         return self.days_rented
+
+    def is_new_release(self) -> bool:
+        return self.movie.year == datetime.datetime.now().year
+
+    def is_childrens(self) -> bool:
+        return self.movie.is_genre("Children") or self.movie.is_genre("Childrens")
+
+    def price_code_for_movie(self):
+        if self.is_new_release():
+            return self.NEW_RELEASE
+        if self.is_childrens():
+            return self.CHILDRENS
+        return self.REGULAR
 
     def get_price_code(self):
         # get the price_code(strategy)

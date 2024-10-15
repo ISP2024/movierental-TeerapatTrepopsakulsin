@@ -22,4 +22,8 @@ See [Resources](https://cpske.github.io/ISP/assignment/movierental/movierental-p
 >2.1) code smells: Message Chains    
 2.2) design principle: Separation of Concerns, because Movie should not handle information about price 
 
->5.2) 
+>5.2) Implement price_code_for_movie in Rental class    
+> Explanation:
+> - Movie should not handle information about price (Single Responsibility Principle)
+> - PriceStrategy should contain only strategy and how to compute price, not movie information (Single Responsibility Principle)
+> - Rental have movie and already need to use the PriceStrategy data (High Cohesion)
