@@ -1,4 +1,5 @@
 import logging
+from pricing import PriceStrategy
 
 
 class Rental:
@@ -11,13 +12,22 @@ class Rental:
     rental period is calculated.
     For simplicity of this application only days_rented is recorded.
     """
+    REGULAR = PriceStrategy.REGULAR
+    NEW_RELEASE = PriceStrategy.NEW_RELEASE
+    CHILDRENS = PriceStrategy.CHILDRENS
     
-    def __init__(self, movie, days_rented): 
+    def __init__(self, movie, days_rented, price_code):
         """Initialize a new movie rental object for
            a movie with known rental period (daysRented).
         """
+        if not isinstance(price_code, PriceStrategy):
+            log = logging.getLogger()
+            log.error(
+                f"Movie {self} has unrecognized priceCode {self.get_price_code()}")
+            raise TypeError(f"Unrecognized priceCode {self.get_price_code()}")
         self.movie = movie
         self.days_rented = days_rented
+        self.price_code = price_code
 
     def get_movie(self):
         return self.movie
@@ -26,7 +36,8 @@ class Rental:
         return self.days_rented
 
     def get_price_code(self):
-        return self.movie.get_price_code()
+        # get the price_code(strategy)
+        return self.price_code
 
     def get_price(self) -> float:
         """Compute rental change."""
