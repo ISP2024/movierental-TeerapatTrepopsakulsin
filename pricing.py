@@ -11,13 +11,13 @@ class PriceStrategy(Enum):
     def __str__(self):
         return self.name
 
-    def compute_price(self, days: int) -> float:
+    def get_price(self, days: int) -> float:
         amount = self.value[1]
         if days > self.value[2]:
             amount += self.value[3] * (days - self.value[2])
         return amount
 
-    def compute_rental_points(self, days: int) -> int:
+    def get_rental_points(self, days: int) -> int:
         return self.value[4] + days * self.value[5]
 
     @property

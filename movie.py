@@ -15,15 +15,10 @@ class Movie:
         if not isinstance(strategy, PriceStrategy):
             log = logging.getLogger()
             log.error(
-                f"Movie {self} has unrecognized priceCode {self.get_strategy()}")
-            raise TypeError(f"Unrecognized priceCode {self.get_strategy()}")
+                f"Movie {self} has unrecognized priceCode {self.get_price_code()}")
+            raise TypeError(f"Unrecognized priceCode {self.get_price_code()}")
         self.title = title
-        self.strategy = strategy
-        self.price_code = self.strategy.price_code
-
-    def get_strategy(self):
-        # get the strategy
-        return self.strategy
+        self.price_code = strategy
 
     def get_price_code(self):
         # get the strategy
@@ -37,8 +32,8 @@ class Movie:
 
     def get_price(self, days: int) -> float:
         """Compute rental change."""
-        return self.strategy.compute_price(days)
+        return self.price_code.get_price(days)
 
     def get_rental_points(self, days: int) -> int:
         """Compute the frequent renter points based on movie price code."""
-        return self.strategy.compute_rental_points(days)
+        return self.price_code.get_rental_points(days)
